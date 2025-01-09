@@ -1,2 +1,2 @@
 # IASC-2P02
-Repository for IASC 2P02 Course
+Repository for IASC 2P02 Course (Brad Wu)
