@@ -15,6 +15,23 @@ const sizes = {
     aspectRatio: window.innerWidth / window.innerHeight
 }
 
+// Resizing
+window.addEventListener('resize', () => 
+{
+     //Update size
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+    sizes.aspectRatio = window.innerWidth / window.innerHeight
+    
+    //Update camera
+    camera.aspect = sizes.aspectRatio
+    camera.updateProjectionMatrix()
+    
+    //Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,  2))
+})
+
 
 /***********
  ** SCENE **
@@ -74,7 +91,7 @@ const animation = () =>
 {
     //Return elapsedTime
     const elapsedTime = clock.getElapsedTime()
-    console.log(elapsedTime)
+   
 
     //Update OrbitControls
     controls.update()
