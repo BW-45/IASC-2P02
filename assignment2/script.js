@@ -92,13 +92,27 @@ const drawCube = (height, params) =>
     cube.position.x = (Math.random() - 0.5) * params.diameter
     cube.position.z = (Math.random() - 0.5) * params.diameter
     cube.position.y = height - 10
+    // dynamic diameter
+    if(params.dynamicDiameterUp)
+    {
+        cube.position.x = (Math.random() - 0.5) * params.diameter * height * 0.1
+        cube.position.z = (Math.random() - 0.5) * params.diameter * height * 0.1
+    }
+
+    if(params.dynamicDiameterDown)
+        {
+            cube.position.x = (Math.random() - 0.5) * params.diameter / (height+2) * 2
+            cube.position.z = (Math.random() - 0.5) * params.diameter / (height+2) * 2
+        }
+
+
 
     // Scale cube
     cube.scale.x = params.scale
     cube.scale.y = params.scale
     cube.scale.z = params.scale
 
-    // Randomize cube ratation
+    // Randomize cube
     if(params.randomized){
         cube.rotation.x = Math.random() * 2 * Math.PI
         cube.rotation.y = Math.random() * 2 * Math.PI
@@ -131,35 +145,41 @@ const group3 = new THREE.Group()
 scene.add(group3)
 
 const uiObj = {
-	sourceText:"Here is my Source Text.",
+	sourceText:" ",
     saveSourceText() {
         saveSourceText()
     },
     term1:{
-        term: 'here',
-        color: '#aa00ff',
-        diameter: 10,
+        term: 'light',
+        color: '#4dc9ff',
+        dynamicDiameterUp: false,
+        dynamicDiameterDown: false,
+        diameter: 5,
         group: group1,
-        nCubes: 100,
+        nCubes: 25,
         randomized: true,
         scale: 1
     },
     term2:{
-        term: 'text',
-        color: '#00ffaa',
-        diameter: 10,
+        term: 'darkness',
+        color: '#ff0f0f',
+        dynamicDiameterUp: false,
+        dynamicDiameterDown: true,
+        diameter: 30,
         group: group2,
-        nCubes: 100,
+        nCubes: 50,
         randomized: true,
         scale: 1
     },
     term3:{
-        term: ' ',
-        color: ' ',
+        term: 'witness',
+        color: '#0d0d0d',
+        dynamicDiameterUp: true,
+        dynamicDiameterDown: false,
         diameter: 10,
         group: group3,
-        nCubes: 100,
-        randomized: true,
+        nCubes: 10,
+        randomized: false,
         scale: 1        
     },
 
@@ -314,6 +334,15 @@ const animation = () =>
    
     // Update OrbitControls
     controls.update()
+
+    // Rotate Darkness(Group 2)
+    group2.rotation.y = elapsedTime * 0.5
+
+    // Rotate Wistness(Group 3)
+    group3.rotation.y = -elapsedTime * 0.1
+
+    // Floating group 3
+    group3.position.y = Math.sin(elapsedTime)
 
     // Rotate Camera
     if(uiObj.rotateCamera)
